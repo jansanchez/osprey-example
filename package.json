@@ -1,5 +1,5 @@
 {
-  "name": "yconference",
+  "name": "osprey-example",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "express": "~4.13.1",
-    "osprey": "*"
+    "osprey": "^0.3.1"
   }
 }
