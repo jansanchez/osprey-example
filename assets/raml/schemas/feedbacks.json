@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type":"object",
+    "properties": {
+        "talks": {
+            "type": "array",
+            "items": {
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "speakers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "feedbacks": {
+                    "type": "array",
+                    "items": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "stars": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 5
+                        },
+                        "comment": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

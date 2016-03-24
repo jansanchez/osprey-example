@@ -1,0 +1,169 @@
+#%RAML 0.8
+title: Conference Service
+baseUri: http://localhost:8080/
+version: v1
+mediaType: application/json
+
+schemas:
+    - id: !include schemas/id.json
+    - eventRequest: !include schemas/eventRequest.json
+    - eventResponse: !include schemas/eventResponse.json
+    - talkRequest: !include schemas/talkRequest.json
+    - talkResponse: !include schemas/talkResponse.json
+    - feedbacks: !include schemas/feedbacks.json
+    - feedback: !include schemas/feedback.json
+    - subscriptionResponse: !include schemas/subscriptionResponse.json
+    - attendeesBatchRequest: !include schemas/attendeesBatchRequest.json 
+    - attendeesBatchResponse: !include schemas/attendeesBatchResponse.json 
+    - attendeesResponse: !include schemas/attendeesResponse.json
+    - attendee: !include schemas/attendee.json
+    - tokenRequest: !include schemas/tokenRequest.json
+    - tokenResponse: !include schemas/tokenResponse.json
+
+traits:
+    - !include https://api.yaas.io/patterns/v2/trait-yaas-aware.yaml
+    - !include https://api.yaas.io/patterns/v1/trait-restricted.yaml
+ 
+/events:
+    is: [yaasAware]
+    post:
+        description: Create an event
+        body:
+            schema: eventRequest
+        responses:
+            201: 
+                body:
+                    schema: id
+    /{eventId}:
+        is: [yaasAware]
+        put:
+            description: Update an event
+            body:
+                schema: eventRequest
+            responses:
+                204:
+                    description: The event has been successfully modified.
+        get:
+            description: Get all the details of one specific event
+            responses:
+                200:
+                    body:
+                        schema: eventResponse
+        /feedbacks:
+            is: [yaasAware, restricted]
+            get:
+                description: Get all feedbacks for all talks
+                responses:
+                    200:
+                        body:
+                            schema: feedbacks
+/talks:
+    is: [yaasAware]
+    post:
+        description: Create a talk
+        body:
+            schema: talkRequest
+        responses:
+            201:
+                body:
+                    schema: id
+    /{talkId}:
+        is: [yaasAware]
+        put:
+            description: Update a talk
+            body:
+                schema: talkRequest
+            responses:
+                204:
+                    description: The talk has been successfully modified.
+        get:
+            description: Get the talk details
+            responses:
+                200:
+                    body:
+                        schema: talkResponse
+        /subscriptions:
+            is: [yaasAware]
+            put:
+                description: Subscribe the logged in user to the talk
+                responses:
+                    204:
+                        description: The user successfully subscribed to the talk
+            delete:
+                description: Unsubscribe the logged in user from the talk
+            /me:
+                /feedback:
+                    is: [yaasAware]
+                    put:
+                        description: Add my feedback to the talk I'm subscribed to.
+                        body:
+                            schema: feedback
+                        responses:
+                            204:
+                                description: Feedback was successfully added.
+                    get:
+                        description: Retrieve my feedback for the talk
+                        responses:
+                            200:
+                                body:
+                                    schema: feedback
+/subscriptions:
+    /me:
+        is: [yaasAware]
+        get:
+            description: Get the subscriptions for the logged user
+            responses:
+                200:
+                    body:
+                        schema: subscriptionResponse
+/attendeesBatch:
+    is: [yaasAware]
+    post:
+        description: creates attendees in batch
+        body:
+            schema: attendeesBatchRequest
+        responses:
+            201:
+                body:
+                    schema: attendeesBatchResponse
+/attendees:
+    is: [yaasAware]
+    get:
+        description: Retrieve all attendees.
+        responses:
+            200:
+                body:
+                    schema: attendeesResponse
+    post:
+        description: Creates a new attendee
+        body:
+            schema: attendee
+        responses:
+            201:
+                body:
+                    schema: id
+    /{attendeeId}:
+        is: [yaasAware]
+        get:
+            description: Retrieve one attendee by id
+            responses:
+                200:
+                    body:
+                        schema: attendee
+        put:
+            description: Update one attendee by id
+            body:
+                schema: attendee
+            responses:
+                204:
+                    description: The attendee has been successfully modified.
+/token:
+    post:
+        description: Generates an access token
+        body:
+            schema: tokenRequest
+        responses:
+            200: 
+                body:
+                    schema: tokenResponse
+

@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type":"object",
+    "properties": {
+        "stars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+        },
+        "comment": {
+            "type": "string"
+        }
+    },
+    "required": ["stars"],
+    "additionalProperties":false
+}

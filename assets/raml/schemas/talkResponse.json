@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type":"object",
+    "properties": {
+        "id": {
+            "type":"string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "startTime": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "endTime": {
+            "type": "string",
+            "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "type": {
+            "type": "string"
+        },
+        "roomName": {
+            "type": "string"
+        },
+        "roomLocation": {
+            "type": "string"
+        },
+        "speakers": {
+            "type": "array",
+            "items": {
+                "name": {
+                    "type": "string"
+                },
+                "headline": {
+                    "type": "string"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "bio": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "required": ["id", "title", "description", "startTime", "endTime", "type", "roomName", "roomLocation", "speakers"]
+}
